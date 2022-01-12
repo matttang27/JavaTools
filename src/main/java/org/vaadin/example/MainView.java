@@ -11,11 +11,15 @@ import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
-
+import com.vaadin.flow.router.PageTitle;
+@PageTitle("Java Tools")
 @Route("")
+
 public class MainView extends VerticalLayout {
 
     public MainView() {
+
+
 
         VerticalLayout manual = new VerticalLayout();
         VerticalLayout construct = new VerticalLayout();
@@ -55,7 +59,6 @@ public class MainView extends VerticalLayout {
         
         construct.add(new H2("Copy from constructor"),cField,generate,pBarLabel, pBar);
         add(
-            
             new H1("Java Scanner Generator"),
             new HorizontalLayout(
                 manual,
