@@ -12,6 +12,9 @@ import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+
+import org.vaadin.Generate;
+
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.component.notification.Notification;
 import java.util.ArrayList;
@@ -24,8 +27,10 @@ import com.vaadin.flow.component.textfield.TextAreaVariant;
 public class MainView extends VerticalLayout {
 
     public MainView() {
-
-        VerticalLayout manual = new VerticalLayout();
+        
+        H1 title = new H1("Java Scanner Generator");
+        //TODO: Center Title
+        title.getStyle().set("text-align","center");
 
         VerticalLayout fieldList = new VerticalLayout();
         ArrayList<TextField> names = new ArrayList<TextField>();
@@ -40,6 +45,16 @@ public class MainView extends VerticalLayout {
             if (nameField.getValue().equals("") || typeField.getValue().equals("")) {
                 if (nameField.getValue().equals("") ) {
                     nameField.getStyle().set("color", "red");
+                    nameField.addFocusListener(listener -> {
+                        if (nameField.getStyle().get("color").equals("red")) {
+                            nameField.getStyle().set("color", "black");
+                        }
+                    });
+                    typeField.addFocusListener(listener -> {
+                        if (typeField.getStyle().get("color").equals("red")) {
+                            typeField.getStyle().set("color", "black");
+                        }
+                    });
                     
                 }
                 if (typeField.getValue().equals("") ) {
@@ -67,16 +82,35 @@ public class MainView extends VerticalLayout {
                 typeField.setValue("");
             }
         });
-        addButton.addClickShortcut(Key.ENTER);
+
+        Button listGen = new Button("listGen");
+        listGen.setText("Generate");
+        listGen.addClickListener(listener -> {
+            if (fieldList.getComponentCount() == 0) {
+                
+            }
+            else {
+                
+            }
+        });
         HorizontalLayout manualInput = new HorizontalLayout(typeField, nameField, addButton);
         fieldList.add(manualInput);
-        manual.add(new H2("Manual Input"), fieldList);
+
+        TextField classInput = new TextField();
+        classInput.setPlaceholder("Class Name");
+
+
+        HorizontalLayout genRow = new HorizontalLayout(classInput,listGen);
+
+        VerticalLayout manual = new VerticalLayout();
+        manual.add(new H2("Manual Input"),genRow,new H4("Properties"), fieldList);
 
         // ----------------------------------------------
 
         VerticalLayout construct = new VerticalLayout();
 
         TextField cField = new TextField();
+        cField.setWidth("100%");
         Button generate = new Button("Generate");
 
         ProgressBar pBar = new ProgressBar();
@@ -92,19 +126,21 @@ public class MainView extends VerticalLayout {
         // ----------------------------------------------
 
         VerticalLayout result = new VerticalLayout();
-        TextArea textArea = new TextArea("Result");
+        TextArea resultText = new TextArea("Result");
+        resultText.setWidth("75%");
 
-        result.add(textArea);
+        result.add(resultText);
         result.setVisible(false);
 
         generate.addClickListener(click -> {
             // pBar.setVisible(true);
             // pBarLabel.setVisible(true);
             result.setVisible(true);
+            resultText.setValue(Generate.fromConstruct(cField.getValue()));
         });
 
         add(
-                new H1("Java Scanner Generator"),
+                title,
                 new HorizontalLayout(
                         manual,
                         construct),
