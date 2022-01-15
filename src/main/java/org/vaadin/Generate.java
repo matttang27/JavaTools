@@ -16,7 +16,11 @@ public class Generate {
         String output = "";
         output += "Scanner tinput = new Scanner(System.in);\n";
         output += String.format("System.out.println(\"Enter info for %s:\")\n",className);
-        for (int i=0;i<test.size();i++) {
+        for (int i=1;i<test.size();i++) {
+            if (test.get(i).charAt(0) == ' ') {
+                test.set(i, test.get(i).substring(1,test.get(i).length()));
+            }
+            System.out.println(test.get(i));
             String type = test.get(i).split(" ")[0];
             String name = test.get(i).split(" ")[1];
             output += String.format("System.out.println(\"Enter %s (Type %s):\")\n",name,type);
@@ -36,7 +40,7 @@ public class Generate {
             String name = list[i][1];
             output += String.format("System.out.println(\"Enter %s (Type %s):\")\n",name,type);
             output += String.format("%s t%s = Scanner.nextLine();\n",type,name);
-            construct += String.format("%s %s, ");
+            construct += String.format("%s %s, ",type,name);
         }
         construct = construct.substring(0,construct.length() - 2);
         output += String.format("%s Example = new %s(%s);",className,className,construct);

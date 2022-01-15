@@ -40,6 +40,8 @@ public class MainView extends VerticalLayout {
         TextField nameField = new TextField();
         nameField.setPlaceholder("Name");
 
+
+
         Button addButton = new Button("Add");
         addButton.addClickListener(click -> {
             if (nameField.getValue().equals("") || typeField.getValue().equals("")) {
@@ -76,6 +78,8 @@ public class MainView extends VerticalLayout {
                 HorizontalLayout row = new HorizontalLayout(ttext, ntext, removeButton);
                 removeButton.addClickListener(click2 -> {
                     fieldList.remove(row);
+                    names.remove(ntext);
+                    types.remove(ttext);
                 });
                 fieldList.add(row);
                 nameField.setValue("");
@@ -137,13 +141,12 @@ public class MainView extends VerticalLayout {
             else {
                 String[][] fieldArray = new String[fieldList.getComponentCount()][2];
                 fieldArray[0][0] = classInput.getValue();
-                for (int i=1;i<fieldList.getComponentCount();i++) {
-                    Component c = fieldList.getComponentAt(i);
-                    System.out.println(c);
-                    String a = c.getComponentAt(i).getValue();
+                for (int i=0;i<names.size();i++) {
+                    fieldArray[i+1][0] = types.get(i).getValue();
+                    fieldArray[i+1][1] = names.get(i).getValue();
                 }
                 result.setVisible(true);
-                //result.setValue(Generate.fromList(fieldArray);
+                resultText.setValue(Generate.fromList(fieldArray));
             }
         });
 
