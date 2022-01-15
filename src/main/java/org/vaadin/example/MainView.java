@@ -85,14 +85,7 @@ public class MainView extends VerticalLayout {
 
         Button listGen = new Button("listGen");
         listGen.setText("Generate");
-        listGen.addClickListener(listener -> {
-            if (fieldList.getComponentCount() == 0) {
-                
-            }
-            else {
-                
-            }
-        });
+        
         HorizontalLayout manualInput = new HorizontalLayout(typeField, nameField, addButton);
         fieldList.add(manualInput);
 
@@ -131,6 +124,28 @@ public class MainView extends VerticalLayout {
 
         result.add(resultText);
         result.setVisible(false);
+
+        listGen.addClickListener(listener -> {
+            
+            System.out.println("CLICKED");
+            System.out.println(fieldList.getComponentCount());
+            
+            if (fieldList.getComponentCount() == 1) {
+                System.out.println("NOPE");
+                Notification notification = Notification.show("Add some fields first!");
+            }
+            else {
+                String[][] fieldArray = new String[fieldList.getComponentCount()][2];
+                fieldArray[0][0] = classInput.getValue();
+                for (int i=1;i<fieldList.getComponentCount();i++) {
+                    Component c = fieldList.getComponentAt(i);
+                    System.out.println(c);
+                    String a = c.getComponentAt(i).getValue();
+                }
+                result.setVisible(true);
+                //result.setValue(Generate.fromList(fieldArray);
+            }
+        });
 
         generate.addClickListener(click -> {
             // pBar.setVisible(true);
